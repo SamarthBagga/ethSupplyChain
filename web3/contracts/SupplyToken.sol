@@ -10,10 +10,9 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract SupplyToken {
-    contract SupplyToken is ERC20 {
+contract SupplyToken is ERC20 {
     constructor() ERC20("SupplyToken", "ST") {
         _mint(msg.sender, 1000000 * (10 ** uint256(decimals())));
     }
 }
-}
+
