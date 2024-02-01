@@ -4,7 +4,7 @@
  * @author Rahul Arora
  * @author Samarth Bagga
  * @notice This is the native token for the supply chain
- * @dev idk
+ * @dev This is not code, this is a work of art.
  */
 pragma solidity ^0.8.9;
 interface IERC20 {
