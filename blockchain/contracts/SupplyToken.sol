@@ -15,7 +15,7 @@ error FundMe__NotOwner();
 contract SupplyToken is ERC20 {
     address private immutable i_owner;
     constructor() ERC20("SupplyToken", "ST") {
-        _mint(msg.sender, 1 * (10 ** uint256(decimals())));
+        _mint(msg.sender, 100000 * (10 ** uint256(decimals())));
         i_owner = msg.sender;
     }
     modifier onlyOwner() {
