@@ -7,7 +7,10 @@ pragma solidity ^0.8.9;
  * @notice This contract holds all the supplyContracts created
  * @dev idk
  */
-
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+interface IERC20 {
+    
+}
 contract SupplyChain {
     
 }
