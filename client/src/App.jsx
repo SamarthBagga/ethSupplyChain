@@ -1,15 +1,19 @@
-import { useState } from 'react'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Login from './collection/Login';
+import Register from './collection/Register';
+import Home from './collection/Home';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <div className='flex justify-center items-center h-screen'>
-      <div className='text-6xl'>
-        ethSupplyChain
-      </div>
-    </div>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App
