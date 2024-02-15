@@ -7,16 +7,16 @@
  * @dev idk
  */
 
- pragma solidity ^0.8.9;
+pragma solidity ^0.8.9;
 
 interface IERC20 {
     function balanceOf(address account) external view returns (uint);
 }
 
- contract SupplyContract2 {
+contract SupplyContract2 {
     address private immutable i_owner;
-    Order[] public  activeOrders;
-    Order[] public  pastOrders;
+    Order[] public activeOrders;
+    Order[] public pastOrders;
     struct Node {
         string name;
         string typeOfNode; // whether it is a manufacturer supplier etc
@@ -35,17 +35,12 @@ interface IERC20 {
         uint256 cost;
         bool isDone;
     }
-        constructor() {
-    i_owner = msg.sender;
-        }
-        function getActiveOrders() public view returns (Order[] memory) {
-        return activeOrders;
+
+    constructor() {
+        i_owner = msg.sender;
     }
 
-
- }
-
-
-
-
-
+    function getActiveOrders() public view returns (Order[] memory) {
+        return activeOrders;
+    }
+}
