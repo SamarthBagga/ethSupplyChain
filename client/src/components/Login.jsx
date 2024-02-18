@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+
+	const navigate = useNavigate();
 
 
   async function loginUser(event) {
@@ -20,7 +23,12 @@ function Login() {
 		})
 
     const data = await response.json()
-    console.log(data)
+    if (data.status === 'ok') {
+		alert('Logged in successfully');
+		navigate('/home');
+	} else {
+		alert(data.error);
+	}
 }
 
   return (
