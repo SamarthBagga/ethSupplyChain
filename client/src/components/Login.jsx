@@ -24,14 +24,15 @@ function Login() {
 }
 
   return (
-		<div>
-			<h1>Login</h1>
-			<form onSubmit={loginUser}>
+		<div className="max-w-md mx-auto my-10 p-6 bg-white rounded-md shadow-md">
+			<h1 className="flex justify-center text-2xl font-bold mb-4">Login</h1>
+			<form onSubmit={loginUser} className="space-y-4">
 				<input
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					type="email"
 					placeholder="Email"
+					className="w-full px-3 py-2 border border-gray-300 rounded-md"
 				/>
 				<br />
 				<input
@@ -39,9 +40,14 @@ function Login() {
 					onChange={(e) => setPassword(e.target.value)}
 					type="password"
 					placeholder="Password"
+					className="w-full px-3 py-2 border border-gray-300 rounded-md"
 				/>
 				<br />
-				<input type="submit" value="Login" />
+				<input
+				    type="submit"
+				    value="Login"
+				    className="w-full bg-blue-500 text-white py-2 rounded-md cursor-pointer hover:bg-blue-600"
+				/>
 			</form>
 		</div>
 	)
