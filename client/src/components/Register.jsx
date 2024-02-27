@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FaEye, FaEyeSlash } from "react-icons/fa"
 
 function Register() {
     const [name, setName] = useState('')
@@ -32,6 +33,8 @@ function Register() {
 	}
 }
 
+    const [isVisible, setIsVisible] = useState(false);
+
   return (
 		<div className="max-w-md mx-auto my-10 p-6 bg-white rounded-md shadow-md">
 			<h1 className="flex justify-center text-2xl font-bold mb-4">Register</h1>
@@ -52,13 +55,22 @@ function Register() {
 					className="w-full px-3 py-2 border border-gray-300 rounded-md"
 				/>
 				<br />
-				<input
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-					type="password"
-					placeholder="Password"
-					className="w-full px-3 py-2 border border-gray-300 rounded-md"
-				/>
+
+				<div className='flex relative'>
+			      <input
+					 value={password}
+					 onChange={(e) => setPassword(e.target.value)}
+					 type={isVisible ? "text" : "password"}
+					 placeholder="Password"
+					 className="w-full px-3 py-2 border border-gray-300 rounded-md"
+				  />
+				  <button 
+				     className="absolute right-2 top-3 text-blue-500 hover:text-blue-600"
+					 onClick={() => setIsVisible(!isVisible)}>
+					   {isVisible ? <FaEye /> : <FaEyeSlash />}
+				  </button>
+				</div>
+
 				<br />
 				<input
 				    type="submit"
