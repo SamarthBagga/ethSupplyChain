@@ -27,7 +27,7 @@ function Register() {
     const data = await response.json()
     if (data.status === 'ok') {
 		alert('Registered successfully');
-		navigate('/login');
+		navigate('/metamask');
 	} else {
 		alert(data.error);
 	}
@@ -64,9 +64,10 @@ function Register() {
 					 placeholder="Password"
 					 className="w-full px-3 py-2 border border-gray-300 rounded-md"
 				  />
-				  <button 
+				  <button
+				     type="button"
 				     className="absolute right-2 top-3 text-blue-500 hover:text-blue-600"
-					 onClick={() => setIsVisible(!isVisible)}>
+					 onClick={(event) => setIsVisible(!isVisible)}>
 					   {isVisible ? <FaEye /> : <FaEyeSlash />}
 				  </button>
 				</div>
