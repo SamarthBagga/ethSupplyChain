@@ -20,124 +20,134 @@ contract SupplyContract2 {
         uint256 nodeId;
         string name;
         string typeOfNode; 
-        address add;
         uint256[] ordersPresent;
         string location;
         uint256 profitShare;
-        address nodeAddress;
+        address payable nodeAddress;
     }
 
     struct Order {
         string name;
         uint256 orderId;
-        string currLocation;
-        string finalLocation;
-        Node[] pathTillNow; 
+        uint256 currLocation;
+        uint256 finalLocation;
         uint256 cost;
         bool isDone;
+        uint256[] pathTillNow; // contains the nodeIds
     }
 
-    Order[] public activeOrders;
+    mapping (uint256 => Order) activeOrders;
     Order[] public pastOrders;
-    mapping(uint256 => Node) public nodesArr;
-    uint256 nodesArrayLen = 0;
+    mapping (uint256 => Node) public  nodesWithId;
+    mapping (uint256 => Order) public  orderWithId;
+    mapping (uint256 => uint256) public orderWithCost; // order id: cost of order
+    Node[] public nodes;
+    uint256 totalMoney = 0;
+    
 
-    mapping(uint256 => Node) public nodeMapping; // Mapping to store Node information
 
     constructor() {
         i_owner = msg.sender;
     }
 
-    function getActiveOrders() public view returns (Order[] memory) {
-        return activeOrders;
-    }
-    
-    function getNodes() public view returns (Node[] memory) {
-    uint256 nodeCount = 0; // Initialize a counter for nodes
-
-    // Iterate through the mapping to count the number of nodes
-    for (uint256 i = 0; ; i++) {
-        if (nodesArr[i].nodeId == 0) {
-            break; // Stop iterating when you encounter an empty node (default value)
-        }
-        nodeCount++;
+    function getActiveOrder(uint256 _orderId) public view returns (Order memory) {
+        return activeOrders[_orderId];
     }
 
-    Node[] memory nodes = new Node[](nodeCount); // Create an empty array
-
-    // Iterate again to copy nodes from the mapping to the array
-    for (uint256 i = 0; i < nodeCount; i++) {
-        nodes[i] = nodesArr[i];
-    }
-
-    return nodes;
-}
-
-
-
-    function getActiveOrder(uint256 orderIdP) public view returns (Order memory) {
-        for (uint i = 0; i < activeOrders.length; i++) {
-            if (activeOrders[i].orderId == orderIdP) {
-                return activeOrders[i];
-            }
-        }
-    }
-
-    function getPastOrder(uint256 orderIdP) public view returns (Order memory) {
+    function getPastOrder(uint256 _orderId) public view returns (Order memory) {
         for (uint i = 0; i < pastOrders.length; i++) {
-            if (pastOrders[i].orderId == orderIdP) {
+            if (pastOrders[i].orderId == _orderId) {
                 return pastOrders[i];
             }
         }
+        revert("Order not found");
+    }
+
+    function getNodes(uint256 _nodeId) public view returns (Node memory) {
+        return nodesWithId[_nodeId];
     }
 
     function createNode(
         uint256 _id,
         string memory _name,
         string memory _typeOfNode,
-        address _add,
         uint256[] memory _ordersPresent,
         string memory _location,
         uint256 _profitShare,
-        address _nodeAddress
+        address payable _nodeAddress
     ) external {
         Node memory newNode = Node({
             nodeId: _id,
             name: _name,
             typeOfNode: _typeOfNode,
-            add: _add,
             ordersPresent: _ordersPresent,
             location: _location,
             profitShare: _profitShare,
             nodeAddress: _nodeAddress
         });
-        nodesArrayLen++;
-        nodesArr[nodesArrayLen] = newNode;
-        nodeMapping[_id] = newNode; // Store Node information in mapping
+        nodesWithId[_id] = newNode; // add node to node map
+        nodes.push(newNode);
+        totalMoney = totalMoney + _profitShare;
     }
 
     function createOrder(
-    string memory _name,
-    uint256 _id,
-    string memory _currLocation,
-    string memory _finalLocation,
-    uint256 _cost,
-    bool _isDone
-) external {
-    Node[] memory array = new Node[](nodesArrayLen); // Create an array for the starting node
-    array[0] = nodesArr[0]; // Assign the first node
+        string memory _name,
+        uint256 _orderId,
+        uint256 _currLocation,
+        uint256 _finalLocation,
+        uint256 _cost,
+        bool _isDone,
+        uint256[] memory _pathTillNow
+    ) external {
+        Order memory newOrder = Order({
+            name: _name,
+            orderId: _orderId,
+            currLocation: _currLocation,
+            finalLocation: _finalLocation,
+            cost: _cost,
+            isDone: _isDone,
+            pathTillNow: _pathTillNow
+        });
 
-    Order memory newOrder = Order({
-        name: _name,
-        orderId: _id,
-        currLocation: _currLocation,
-        finalLocation: _finalLocation,
-        pathTillNow: array,
-        cost: _cost,
-        isDone: _isDone
-    });
+        orderWithId[_orderId] = newOrder;
+    }
 
-    activeOrders.push(newOrder);
+    function getOrderPath(uint256 _orderId) public view returns (uint256[] memory) {
+        return orderWithId[_orderId].pathTillNow;
+    }
+
+    function sendToNext(uint256 _orderId) public {
+    require(nodesWithId[orderWithId[_orderId].currLocation].nodeAddress == msg.sender, "Unauthorized sender");
+    for (uint i = 0; i < nodes.length; i++) {
+        if (nodes[i].nodeAddress == nodesWithId[orderWithId[_orderId].currLocation].nodeAddress) {
+            orderWithId[_orderId].currLocation = nodes[i + 1].nodeId;
+            break;
+        }
+    } 
 }
+    function ifFinalLoc(uint256 _orderId) public returns(bool) {
+        if ((orderWithId[_orderId]).currLocation == (orderWithId[_orderId]).finalLocation) {
+            orderWithId[_orderId].isDone = true;
+            return true;
+        }
+        pastOrders.push(orderWithId[_orderId]);
+        return false;
+    }
+
+    receive() external payable {
+        require(totalMoney != msg.value, "Send only the exact amount");
+        sendMoney();
+    }
+
+    function sendMoney() internal {
+        for (uint i = 0; i < nodes.length; i++) {
+            address payable add = nodes[i].nodeAddress;
+            add.transfer(nodes[i].profitShare);
+        }
+    }
+
+
+
+
 
 }
