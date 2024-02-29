@@ -19,7 +19,6 @@ app.post('/api/register', async (req,res) => {
             name: req.body.name,
             email: req.body.email,
             password: hashedPassword,
-            walletAddress: req.body.walletAddress,
         })
         res.json({ status: 'ok' })
     } catch (err){
