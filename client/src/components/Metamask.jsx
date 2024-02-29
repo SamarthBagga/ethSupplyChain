@@ -36,9 +36,9 @@ const Metamask = () => {
   };
 
   return (
-    <div className="flex justify-center my-10">
-      <div className="max-w-md p-6 bg-white rounded-md shadow-md">
-        <h1 className="text-4xl font-bold mb-4 text-center">Connect Metamask</h1>
+    <div className="flex items-center justify-center h-screen">
+      <div className="max-w-md p-6 bg-cyan-100 rounded-md shadow-md">
+        <h1 className="text-4xl font-bold mb-4 text-black text-center">Connect Metamask</h1>
         <button
           className="w-full bg-blue-500 text-white py-2 rounded-md cursor-pointer hover:bg-blue-600"
           onClick={connectMetamask}
