@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import scm from '../assets/scm.png';
+import { useToast } from '@chakra-ui/react'
+import { Checkbox } from '@chakra-ui/react';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
+
+  const toast = useToast();
 
   async function loginUser(event) {
     event.preventDefault();
@@ -25,14 +28,25 @@ function Login() {
 
     const data = await response.json();
     if (data.status === 'ok') {
-      alert('Logged in successfully');
+      toast({
+        title: 'Logged in successfully',
+        position: 'bottom-right',
+        status: 'success',
+        duration: 4000,
+      })
       navigate('/home');
     } else {
-      alert(data.error);
+      toast({
+        title: 'User not found or password incorrect',
+        status: 'error',
+        position: 'bottom-right',
+        duration: 4000,
+      })
     }
   }
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
   return (
     <div className="flex min-h-screen">
@@ -49,22 +63,17 @@ function Login() {
             placeholder="Email"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
-          <div className="flex relative">
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type={isVisible ? 'text' : 'password'}
-              placeholder="Password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            <button
-              type="button"
-              className="absolute right-2 top-3 text-blue-500 hover:text-blue-600"
-              onClick={() => setIsVisible(!isVisible)}
-            >
-              {isVisible ? <FaEye /> : <FaEyeSlash />}
-            </button>
-          </div>
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
+          <Checkbox isChecked={showPassword} onChange={handleShowPassword}>
+            Show Password
+          </Checkbox>
+
           <input
             type="submit"
             value="Login"

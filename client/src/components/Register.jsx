@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import scm from '../assets/scm.png';
+import { useToast } from '@chakra-ui/react'
+import { Checkbox } from '@chakra-ui/react';
 
 function Register() {
   const [name, setName] = useState('');
@@ -9,6 +10,8 @@ function Register() {
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
+
+  const toast = useToast();
 
   async function registerUser(event) {
     event.preventDefault();
@@ -27,14 +30,25 @@ function Register() {
 
     const data = await response.json();
     if (data.status === 'ok') {
-      alert('Registered successfully');
-      navigate('/metamask');
+      toast({
+          title: 'Account created successfully',
+          status: 'success',
+          position: 'bottom-right',
+          duration: 4000,
+        })
+      navigate('/login');
     } else {
-      alert(data.error);
+      toast({
+        title: 'Error occurred while creating account',
+        status: 'error',
+        position: 'bottom-right',
+        duration: 4000,
+      })
     }
   }
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
   return (
     <div className="flex min-h-screen">
@@ -58,26 +72,21 @@ function Register() {
             placeholder="Email"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-teal-500"
           />
-          <div className="flex relative">
-            <input
+          <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              type={isVisible ? 'text' : 'password'}
+              type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-teal-500"
-            />
-            <button
-              type="button"
-              className="absolute right-2 top-3 text-teal-500 hover:text-teal-600"
-              onClick={() => setIsVisible(!isVisible)}
-            >
-              {isVisible ? <FaEye /> : <FaEyeSlash />}
-            </button>
-          </div>
+          />
+          <Checkbox isChecked={showPassword} onChange={handleShowPassword}>
+              Show Password
+          </Checkbox>
+          
           <input
-            type="submit"
-            value="Register"
-            className="w-full bg-teal-500 text-white py-2 rounded-md cursor-pointer hover:bg-teal-600"
+              type="submit"
+              value="Register"
+              className="w-full bg-teal-500 text-white py-2 rounded-md cursor-pointer hover:bg-teal-600"
           />
         </form>
       </div>
