@@ -8,7 +8,8 @@ const User = require('./models/user')
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect('mongodb://localhost:27017/ethSupplyChain')
+const mongoAtlasUri = 'mongodb+srv://rahularora2715:63MLdcqX3kak8enI@supplychaincluster.mhb3109.mongodb.net/?retryWrites=true&w=majority&appName=SupplyChainCluster';
+mongoose.connect(mongoAtlasUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.post('/api/register', async (req,res) => {
     console.log(req.body)

@@ -4,6 +4,7 @@ import scm from '../assets/scm.png';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Features from './Features';
+import Team from './Team';
 
 const Hero = () => {
   return (
@@ -30,6 +31,8 @@ const Hero = () => {
     </div>
 
     <Features />
+
+    <Team />
     
     <Footer />
     </>
