@@ -6,17 +6,23 @@ import './index.css'
 
 import {
   ThirdwebProvider,
-  metamaskWallet
+  metamaskWallet,
+  coinbaseWallet,
+  rainbowWallet,
 } from "@thirdweb-dev/react";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
   <ChakraProvider>
   <ThirdwebProvider
+      activeChain="mumbai"
+      clientId="YOUR_CLIENT_ID"
       supportedWallets={[
         metamaskWallet({
           recommended: true,
         }),
+        coinbaseWallet(),
+        rainbowWallet(),
       ]}
     >
     <App />

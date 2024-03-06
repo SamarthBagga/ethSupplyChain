@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import scm from '../assets/scm.png';
+import { Link, useNavigate } from 'react-router-dom';
+import truck from '../assets/truck.webp';
 import { useToast } from '@chakra-ui/react'
 import { Checkbox } from '@chakra-ui/react';
 
@@ -53,7 +53,7 @@ function Register() {
   return (
     <div className="flex min-h-screen">
       <div className="w-3/4 hidden md:flex bg-gray-100 justify-center items-center">
-        <img src={scm} alt="Register Image" className="w-full h-full object-cover" />
+        <img src={truck} alt="Register Image" className="w-full h-full object-cover opacity-90" />
       </div>
       <div className="flex flex-col justify-center w-full md:w-1/3 px-8 space-y-8 bg-white">
         <h1 className="text-5xl font-bold text-black text-center">Register</h1>
@@ -86,8 +86,12 @@ function Register() {
           <input
               type="submit"
               value="Register"
-              className="w-full bg-teal-500 text-white py-2 rounded-md cursor-pointer hover:bg-teal-600"
+              className="w-full bg-blue-500 text-white py-2 rounded-md cursor-pointer hover:bg-teal-600"
           />
+          <div className='flex'>
+            Already have an account?
+            <Link to='/login' className='ml-2 underline' >Login</Link>
+          </div>
         </form>
       </div>
     </div>
