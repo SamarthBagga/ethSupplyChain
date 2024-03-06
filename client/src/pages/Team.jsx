@@ -1,5 +1,7 @@
 import React from 'react';
-import { FaGithub } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+
 
 const Team = () => {
   return (
@@ -31,16 +33,26 @@ const Team = () => {
             </h1>
 
             <p className="mt-2 text-gray-500 capitalize group-hover:text-gray-300">
-              dev
+              developer
             </p>
 
             <div className="flex mt-3 -mx-2">
               <a
-                href="#"
+                href="https://www.linkedin.com/in/samarth-bagga-175453226/"
                 className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white"
-                aria-label="Reddit"
+                aria-label="Linkedin"
               >
-                <div className="w-6 h-6 fill-current">
+                <div className="text-xl fill-current">
+                  <FaLinkedin />
+                </div>
+              </a>
+
+              <a
+                href="https://github.com/SamarthBagga"
+                className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white"
+                aria-label="Github"
+              >
+                <div className="text-xl fill-current">
                   <FaGithub />
                 </div>
               </a>
@@ -48,20 +60,10 @@ const Team = () => {
               <a
                 href="#"
                 className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white"
-                aria-label="Reddit"
+                aria-label="Twitter"
               >
-                <div className="w-6 h-6 fill-current">
-                  <FaGithub />
-                </div>
-              </a>
-
-              <a
-                href="#"
-                className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white"
-                aria-label="Reddit"
-              >
-                <div className="w-6 h-6 fill-current">
-                  <FaGithub />
+                <div className="text-xl fill-current">
+                  <FaXTwitter />
                 </div>
               </a>
             </div>
@@ -78,16 +80,26 @@ const Team = () => {
             </h1>
 
             <p className="mt-2 text-gray-500 capitalize group-hover:text-gray-300">
-              dev
+              developer but devashish is better
             </p>
 
             <div className="flex mt-3 -mx-2">
               <a
-                href="#"
+                href="https://www.linkedin.com/in/rahularora2715/"
                 className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white"
-                aria-label="Reddit"
+                aria-label="Linkedin"
               >
-                <div className="w-6 h-6 fill-current">
+                <div className="text-xl fill-current">
+                  <FaLinkedin />
+                </div>
+              </a>
+
+              <a
+                href="https://github.com/rahularora27"
+                className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white"
+                aria-label="Github"
+              >
+                <div className="text-xl fill-current">
                   <FaGithub />
                 </div>
               </a>
@@ -95,20 +107,10 @@ const Team = () => {
               <a
                 href="#"
                 className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white"
-                aria-label="Reddit"
+                aria-label="Twitter"
               >
-                <div className="w-6 h-6 fill-current">
-                  <FaGithub />
-                </div>
-              </a>
-
-              <a
-                href="#"
-                className="mx-2 text-gray-600 hover:text-gray-500 group-hover:text-white"
-                aria-label="Reddit"
-              >
-                <div className="w-6 h-6 fill-current">
-                  <FaGithub />
+                <div className="text-xl fill-current">
+                  <FaXTwitter />
                 </div>
               </a>
             </div>
