@@ -1,6 +1,8 @@
 import React from 'react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import samarth from '../assets/samarth.jpg';
+import rahul from '../assets/rahul.jpg';
 
 
 const Team = () => {
@@ -25,7 +27,7 @@ const Team = () => {
           <div className="flex flex-col items-center p-8 transition-colors duration-300 transform cursor-pointer group hover:bg-blue-600 rounded-xl">
             <img
               className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300"
-              src="#"
+              src={samarth}
             />
 
             <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize group-hover:text-white">
@@ -72,7 +74,7 @@ const Team = () => {
           <div className="flex flex-col items-center p-8 transition-colors duration-300 transform cursor-pointer group hover:bg-blue-600 rounded-xl">
             <img
               className="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300"
-              src="#"
+              src={rahul}
             />
 
             <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize group-hover:text-white">
@@ -80,7 +82,7 @@ const Team = () => {
             </h1>
 
             <p className="mt-2 text-gray-500 capitalize group-hover:text-gray-300">
-              developer but devashish is better
+              developer
             </p>
 
             <div className="flex mt-3 -mx-2">

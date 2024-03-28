@@ -2,9 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { ethers } from "ethers";
 import SupplyContract from "../assets/contracts/SupplyContract.json";
-import {toast} from 'react-toastify';
+import { useToast } from '@chakra-ui/react'
+
 
 const DeployContract = () => {
+
+    const toast = useToast();
+
     const [deployedAddress, setDeployedAddress] = useState('');
 
     const deployContract = async () => {
@@ -31,7 +35,12 @@ const DeployContract = () => {
                 await deployedContract.deployed();
 
                 setDeployedAddress(deployedContract.address);
-                toast.success("Your contract is deployed at "+ deployedContract.address);
+                toast({
+                    title: 'Your contract is deployed at ' + deployedContract.address,
+                    status: 'success',
+                    position: 'bottom-right',
+                    duration: 4000,
+                  })
                 
             } else {
                 console.error('MetaMask is not installed');
@@ -43,7 +52,7 @@ const DeployContract = () => {
 
     return (
         <div>
-            <button onClick={deployContract}>Click me to deploy your contract</button>
+            <button onClick={deployContract}>Deploy your Contract</button>
         </div>
     );
 }
