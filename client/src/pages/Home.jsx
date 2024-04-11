@@ -5,12 +5,12 @@ import { ethers } from "ethers";
 import SupplyContract from "../assets/contracts/SupplyContract.json";
 import AddNode from '../components/AddNode';
 import Chain from '../components/Chain';
+import { connect } from 'react-redux'; // Import connect
+import { setCurrentContract } from '../../store/actions';
 
-
-
-const Home = () => {
+const Home = ({ setCurrentContract, currentContract }) => { // Destructure currentContract from props
   const [contractAddresses, setContractAddresses] = useState([]);
-  const [currentContract, setCurrentContract] = useState('');
+  // Remove useState for currentContract
 
   useEffect(() => {
     const doStuff = async () => {
@@ -52,15 +52,6 @@ const Home = () => {
 
     doStuff(); // Call the function inside useEffect to execute it once on component mount
   }, []); // Empty dependency array ensures the function is executed only once
-  const ifFinalLoc = async () => {
-    console.log("HELLo")
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const walletAddress = await signer.getAddress();
-        const contract = new ethers.Contract(currentContract,SupplyContract.abi,signer);
-        const transactionResponse = await contract.ifFinalLoc(1);
-        console.log(transactionResponse)
-  }
 
   const [selectedSection, setSelectedSection] = useState('addNode');
 
@@ -68,7 +59,6 @@ const Home = () => {
     setSelectedSection(section);
   };
 
-  
   return (
     <>
       <Navbar />
@@ -81,10 +71,9 @@ const Home = () => {
             ))}
           </select>
         )}
-        {/* <button onClick={ifFinalLoc}>CLICK ME PLEASE</button> */}
       </div>
       <div className='flex justify-center items-center'>
-      <div className="space-x-4">
+        <div className="space-x-4">
           <button
             onClick={() => handleSectionChange('addNode')}
             className={`px-4 py-2 rounded-md focus:outline-none ${selectedSection === 'addNode' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}
@@ -105,4 +94,8 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => ({
+  currentContract: state.currentContract,
+});
+
+export default connect(mapStateToProps, { setCurrentContract })(Home); // Connect component to Redux store and actions
