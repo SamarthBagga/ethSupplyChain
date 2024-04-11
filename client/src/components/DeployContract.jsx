@@ -41,6 +41,36 @@ const DeployContract = () => {
                     position: 'bottom-right',
                     duration: 4000,
                   })
+const walletAddress = await signer.getAddress();
+                  // API call should happen here, after address has been fetched
+        const response = await fetch('http://localhost:5000/api/deploy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                walletAddress,
+                deployedAddress:deployedContract.address
+            }),
+        });
+
+        const data = await response.json();
+        if (data.status === 'ok') {
+            toast({
+                title: 'Contract Added!',
+                status: 'success',
+                position: 'bottom-right',
+                duration: 4000,
+            });
+        } else {
+            console.log(data);
+            toast({
+                title: 'Error occurred while adding contract!   ',
+                status: 'error',
+                position: 'bottom-right',
+                duration: 4000,
+            });
+        }
                 
             } else {
                 console.error('MetaMask is not installed');

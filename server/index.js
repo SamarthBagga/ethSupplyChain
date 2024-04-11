@@ -8,7 +8,7 @@ const User = require('./models/user');
 app.use(cors());
 app.use(express.json());
 
-const mongoAtlasUri = 'mongodb+srv://rahularora2715:63MLdcqX3kak8enI@supplychaincluster.mhb3109.mongodb.net/?retryWrites=true&w=majority&appName=SupplyChainCluster';
+const mongoAtlasUri = 'mongodb+srv://samarthbagga:samarth@cluster0.pj8ktnz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 mongoose.connect(mongoAtlasUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
@@ -27,12 +27,15 @@ app.post('/api/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     const user = await User.create({
+      address: req.body.address,
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
+
     });
     res.json({ status: 'ok' });
   } catch (err) {
+    console.log(err)
     res.json({ status: 'error', error: 'Some error occurred' });
   }
 });
@@ -51,6 +54,24 @@ app.post('/api/login', async (req, res) => {
     res.json({ status: 'error', error: 'Internal server error' });
   }
 });
+
+app.post('/api/deploy', async (req, res) => {
+  try {
+      const user = await User.findOne({ address: req.body.walletAddress.toLowerCase() });
+
+      if (user) {
+          user.contracts.push(req.body.deployedAddress);
+          await user.save();
+          res.json({ status: 'ok' });
+      } else {
+          res.json({ status: 'error', error: 'User not found' });
+      }
+  } catch (err) {
+      console.error(err);
+      res.json({ status: 'error', error: 'Internal server error' });
+  }
+});
+
 
 app.use((req, res) => {
     res.status(404).send('404 - Not Found');

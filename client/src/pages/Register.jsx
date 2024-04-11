@@ -15,37 +15,49 @@ function Register() {
 
   async function registerUser(event) {
     event.preventDefault();
+    let address;
+    try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        address = accounts[0];
+        console.log('Connected address:', address);
 
-    const response = await fetch('http://localhost:5000/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-    });
+        const response = await fetch('http://localhost:5000/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                address,
+                name,
+                email,
+                password,
+            }),
+        });
 
-    const data = await response.json();
-    if (data.status === 'ok') {
-      toast({
-          title: 'Account created successfully',
-          status: 'success',
-          position: 'bottom-right',
-          duration: 4000,
-        })
-      navigate('/login');
-    } else {
-      toast({
-        title: 'Error occurred while creating account',
-        status: 'error',
-        position: 'bottom-right',
-        duration: 4000,
-      })
+        const data = await response.json();
+        if (data.status === 'ok') {
+            toast({
+                title: 'Account created successfully',
+                status: 'success',
+                position: 'bottom-right',
+                duration: 4000,
+            });
+            navigate('/login');
+        } else {
+            console.log(data);
+            toast({
+                title: 'Error occurred while creating account',
+                status: 'error',
+                position: 'bottom-right',
+                duration: 4000,
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle errors
     }
-  }
+}
+
 
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
