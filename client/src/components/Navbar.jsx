@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ConnectWallet } from '@thirdweb-dev/react';
 import { BiMenuAltRight } from "react-icons/bi";
+import DeployContract from './DeployContract';
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,6 +36,7 @@ const Navbar = () => {
               modalSize="compact"
               showThirdwebBranding={false}
           />
+          <DeployContract/>
         </div>
         <div
           id="navbar-alignment"
@@ -54,6 +57,7 @@ const Navbar = () => {
             </a>
           </div>
         </div>
+
       </nav>
     </header>
   );

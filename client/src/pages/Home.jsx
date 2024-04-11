@@ -3,6 +3,9 @@ import Navbar from '../components/Navbar';
 import DeployContract from '../components/DeployContract';
 import { ethers } from "ethers";
 import SupplyContract from "../assets/contracts/SupplyContract.json";
+import AddNode from '../components/AddNode';
+import Chain from '../components/Chain';
+
 
 
 const Home = () => {
@@ -59,12 +62,17 @@ const Home = () => {
         console.log(transactionResponse)
   }
 
+  const [selectedSection, setSelectedSection] = useState('addNode');
+
+  const handleSectionChange = (section) => {
+    setSelectedSection(section);
+  };
+
   
   return (
     <>
       <Navbar />
       <div className='flex justify-center items-center'>
-        <DeployContract />
         {contractAddresses.length > 0 && (
           <select value={currentContract} onChange={(e) => setCurrentContract(e.target.value)}>
             <option value="">Select Contract</option>
@@ -73,8 +81,26 @@ const Home = () => {
             ))}
           </select>
         )}
-        <button onClick={ifFinalLoc}>CLICK ME PLEASE</button>
+        {/* <button onClick={ifFinalLoc}>CLICK ME PLEASE</button> */}
       </div>
+      <div className='flex justify-center items-center'>
+      <div className="space-x-4">
+          <button
+            onClick={() => handleSectionChange('addNode')}
+            className={`px-4 py-2 rounded-md focus:outline-none ${selectedSection === 'addNode' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}
+          >
+            Add Node
+          </button>
+          <button
+            onClick={() => handleSectionChange('chain')}
+            className={`px-4 py-2 rounded-md focus:outline-none ${selectedSection === 'chain' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}
+          >
+            Chain
+          </button>
+        </div>
+      </div>
+      {selectedSection === 'addNode' && <AddNode />}
+      {selectedSection === 'chain' && <Chain />}
     </>
   );
 };

@@ -68,7 +68,6 @@ contract SupplyContract2 {
     }
 
     function createNode(
-        uint256 _id,
         string memory _name,
         string memory _typeOfNode,
         uint256[] memory _ordersPresent,
@@ -77,7 +76,7 @@ contract SupplyContract2 {
         address payable _nodeAddress
     ) external {
         Node memory newNode = Node({
-            nodeId: _id,
+            nodeId: nodes.length,
             name: _name,
             typeOfNode: _typeOfNode,
             ordersPresent: _ordersPresent,
@@ -85,7 +84,7 @@ contract SupplyContract2 {
             profitShare: _profitShare,
             nodeAddress: _nodeAddress
         });
-        nodesWithId[_id] = newNode; // add node to node map
+        nodesWithId[nodes.length] = newNode; // add node to node map
         nodes.push(newNode);
         totalMoney = totalMoney + _profitShare;
     }
@@ -117,6 +116,7 @@ contract SupplyContract2 {
     }
 
     function sendToNext(uint256 _orderId) public {
+        if(!ifFinalLoc(_orderId)){
     require(nodesWithId[orderWithId[_orderId].currLocation].nodeAddress == msg.sender, "Unauthorized sender");
     for (uint i = 0; i < nodes.length; i++) {
         if (nodes[i].nodeAddress == nodesWithId[orderWithId[_orderId].currLocation].nodeAddress) {
@@ -124,8 +124,10 @@ contract SupplyContract2 {
             break;
         }
     } 
+    }
+        
 }
-    function ifFinalLoc(uint256 _orderId) public returns(bool) {
+    function ifFinalLoc(uint256 _orderId) internal returns(bool) {
         if ((orderWithId[_orderId]).currLocation == (orderWithId[_orderId]).finalLocation) {
             orderWithId[_orderId].isDone = true;
             return true;
