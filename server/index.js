@@ -72,6 +72,24 @@ app.post('/api/deploy', async (req, res) => {
   }
 });
 
+app.post('/api/contracts', async (req, res) => {
+  try {
+      const user = await User.findOne({ address: req.body.walletAddress.toLowerCase() });
+
+      if (user) {
+        console.log("got user");
+        console.log(user);
+        res.json({ status: 'ok', contracts: user.contracts });
+    } else {
+        res.json({ status: 'error', error: 'User not found' });
+    }
+    
+  } catch (err) {
+      console.error(err);
+      res.json({ status: 'error', error: 'Internal server error' });
+  }
+});
+
 
 app.use((req, res) => {
     res.status(404).send('404 - Not Found');
