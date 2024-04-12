@@ -91,7 +91,6 @@ contract SupplyContract2 {
 
     function createOrder(
         string memory _name,
-        uint256 _orderId,
         uint256 _currLocation,
         uint256 _finalLocation,
         uint256 _cost,
@@ -100,15 +99,15 @@ contract SupplyContract2 {
     ) external {
         Order memory newOrder = Order({
             name: _name,
-            orderId: _orderId,
+            orderId: pastOrders.length,
             currLocation: _currLocation,
             finalLocation: _finalLocation,
             cost: _cost,
             isDone: _isDone,
             pathTillNow: _pathTillNow
         });
-
-        orderWithId[_orderId] = newOrder;
+        
+        orderWithId[pastOrders.length] = newOrder;
     }
 
     function getOrderPath(uint256 _orderId) public view returns (uint256[] memory) {

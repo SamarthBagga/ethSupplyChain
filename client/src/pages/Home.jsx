@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 import SupplyContract from "../assets/contracts/SupplyContract.json";
 import AddNode from '../components/AddNode';
 import Chain from '../components/Chain';
+import AddOrder from '../components/AddOrder';
 import { connect } from 'react-redux'; // Import connect
 import { setCurrentContract } from '../../store/actions';
 
@@ -86,10 +87,17 @@ const Home = ({ setCurrentContract, currentContract }) => { // Destructure curre
           >
             Chain
           </button>
+          <button
+            onClick={() => handleSectionChange('addOrder')}
+            className={`px-4 py-2 rounded-md focus:outline-none ${selectedSection === 'addOrder' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}
+          >
+            Add Order
+          </button>
         </div>
       </div>
       {selectedSection === 'addNode' && <AddNode />}
       {selectedSection === 'chain' && <Chain />}
+      {selectedSection === 'addOrder' && <AddOrder/>}
     </>
   );
 };
