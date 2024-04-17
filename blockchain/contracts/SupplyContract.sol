@@ -115,6 +115,7 @@ contract SupplyContract {
         
         orderWithId[pastOrders.length] = newOrder;
         numberOfActiveOrders++;
+        activeOrders.push(newOrder);
     }
 
     function getOrderPath(uint256 _orderId) public view returns (uint256[] memory) {
