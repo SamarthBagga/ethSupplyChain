@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import { connect } from 'react-redux';
 import SupplyContract from "../assets/contracts/SupplyContract.json";
 
-const AddNode = ({ currentContract }) => {
+const AddNode = ({ currentContractAddress }) => {
   const [name, setName] = useState('');
   const [typeOfNode, setTypeOfNode] = useState('');
   const [ordersPresent, setOrdersPresent] = useState('');
@@ -16,9 +16,9 @@ const AddNode = ({ currentContract }) => {
     e.preventDefault();
     const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
-        console.log("current is " + currentContract)
+        console.log("current is " + currentContractAddress)
         const walletAddress = await signer.getAddress();
-        const contract = new ethers.Contract(currentContract,SupplyContract.abi,signer);
+        const contract = new ethers.Contract(currentContractAddress,SupplyContract.abi,signer);
         let array = [];
         const transactionResponse = await contract.createNode(name, typeOfNode, array, location, ethers.utils.parseEther(profitShare.toString()), nodeAddress);
         console.log(transactionResponse)
@@ -91,7 +91,7 @@ const AddNode = ({ currentContract }) => {
 };
 
 const mapStateToProps = (state) => ({
-  currentContract: state.currentContract, // Accessing currentContract from Redux store state
+  currentContractAddress: state.currentContractAddress, // Accessing currentContract from Redux store state
 });
 
 export default connect(mapStateToProps)(AddNode); 

@@ -13,7 +13,7 @@ interface IERC20 {
     function balanceOf(address account) external view returns (uint);
 }
 
-contract SupplyContract2 {
+contract SupplyContract {
     address private immutable i_owner;
 
     struct Node {
@@ -36,12 +36,14 @@ contract SupplyContract2 {
         uint256[] pathTillNow; // contains the nodeIds
     }
 
-    mapping (uint256 => Order) activeOrders;
+    // mapping (uint256 => Order) activeOrders;
     Order[] public pastOrders;
     mapping (uint256 => Node) public  nodesWithId;
     mapping (uint256 => Order) public  orderWithId;
     mapping (uint256 => uint256) public orderWithCost; // order id: cost of order
     Node[] public nodes;
+    Order[] public activeOrders;
+    uint256 numberOfActiveOrders = 0;
     uint256 totalMoney = 0;
     
 
@@ -51,7 +53,11 @@ contract SupplyContract2 {
     }
 
     function getActiveOrder(uint256 _orderId) public view returns (Order memory) {
-        return activeOrders[_orderId];
+        for (uint i = 0; i < activeOrders.length; i++) {
+            if(activeOrders[i].orderId == _orderId) {
+                return activeOrders[i];
+            }
+        }
     }
 
     function getPastOrder(uint256 _orderId) public view returns (Order memory) {
@@ -108,6 +114,7 @@ contract SupplyContract2 {
         });
         
         orderWithId[pastOrders.length] = newOrder;
+        numberOfActiveOrders++;
     }
 
     function getOrderPath(uint256 _orderId) public view returns (uint256[] memory) {
@@ -128,12 +135,25 @@ contract SupplyContract2 {
 }
     function ifFinalLoc(uint256 _orderId) internal returns(bool) {
         if ((orderWithId[_orderId]).currLocation == (orderWithId[_orderId]).finalLocation) {
-            orderWithId[_orderId].isDone = true;
-            return true;
-        }
-        pastOrders.push(orderWithId[_orderId]);
-        return false;
+    orderWithId[_orderId].isDone = true;
+
+    // Loop to remove Order from activeOrders
+    uint256 lastIndex = activeOrders.length - 1;
+    for (uint256 i = 0; i < lastIndex; i++) {
+      if (activeOrders[i].orderId == _orderId) {
+        activeOrders[i] = activeOrders[lastIndex];
+        activeOrders.pop(); // Remove the last element (swapped value)
+        break;
+      }
     }
+
+    numberOfActiveOrders--;
+    return true;
+  }
+  pastOrders.push(orderWithId[_orderId]);
+  return false;
+}
+
 
     receive() external payable {
         require(totalMoney != msg.value, "Send only the exact amount");
@@ -147,6 +167,19 @@ contract SupplyContract2 {
         }
     }
 
+   function getFirstNode() public view returns (string memory) {
+    return nodes[0].name;
+}
+function getLastNode() public view returns (string memory) {
+    return nodes[nodes.length - 1].name;
+}
+    function getLengthOfNodesArray() public view returns (uint256) {
+        return nodes.length;
+    }
+
+    function getActiveOrders() public view returns (Order[] memory) {
+    return activeOrders;
+}
 
 
 

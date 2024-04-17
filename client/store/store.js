@@ -2,16 +2,16 @@ import { createStore } from 'redux';
 
 // Initial state
 const initialState = {
-  currentContract: '',
+  currentContractAddress: '',
 };
 
 // Reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_CURRENT_CONTRACT':
+    case 'SET_CURRENT_CONTRACT_ADDRESS':
       return {
         ...state,
-        currentContract: action.payload,
+        currentContractAddress: action.payload,
       };
     default:
       return state;

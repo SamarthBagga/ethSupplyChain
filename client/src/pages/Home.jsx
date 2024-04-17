@@ -7,9 +7,9 @@ import AddNode from '../components/AddNode';
 import Chain from '../components/Chain';
 import AddOrder from '../components/AddOrder';
 import { connect } from 'react-redux'; // Import connect
-import { setCurrentContract } from '../../store/actions';
+import { setCurrentContractAddress } from '../../store/actions';
 
-const Home = ({ setCurrentContract, currentContract }) => { // Destructure currentContract from props
+const Home = ({ setCurrentContractAddress, currentContractAddress }) => { // Destructure currentContract from props
   const [contractAddresses, setContractAddresses] = useState([]);
   // Remove useState for currentContract
 
@@ -65,7 +65,7 @@ const Home = ({ setCurrentContract, currentContract }) => { // Destructure curre
       <Navbar />
       <div className='flex justify-center items-center'>
         {contractAddresses.length > 0 && (
-          <select value={currentContract} onChange={(e) => setCurrentContract(e.target.value)}>
+          <select value={currentContractAddress} onChange={(e) => setCurrentContractAddress(e.target.value)}>
             <option value="">Select Contract</option>
             {contractAddresses.map((address, index) => (
               <option key={index} value={address}>{address}</option>
@@ -103,7 +103,7 @@ const Home = ({ setCurrentContract, currentContract }) => { // Destructure curre
 };
 
 const mapStateToProps = (state) => ({
-  currentContract: state.currentContract,
+  currentContractAddress: state.currentContractAddress,
 });
 
-export default connect(mapStateToProps, { setCurrentContract })(Home); // Connect component to Redux store and actions
+export default connect(mapStateToProps, { setCurrentContractAddress })(Home); // Connect component to Redux store and actions
