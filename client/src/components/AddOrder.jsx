@@ -22,7 +22,11 @@ const AddOrder = ({ currentContractAddress }) => {
         // const firstNode = await contract.getFirstNode();
         const lastNode = await contract.getLengthOfNodesArray();
         let array = [];
-        const transactionResponse = await contract.createOrder(name, 0, lastNode, ethers.utils.parseEther(cost.toString()), false, array);
+        const currentTime = new Date();
+        const currentTimeMillis = currentTime.getTime();
+
+        const currentDateString = currentTime.toLocaleString();
+        const transactionResponse = await contract.createOrder(name, 0, lastNode, ethers.utils.parseEther(cost.toString()), false, array, currentDateString );
         console.log(transactionResponse)
     // Handle form submission
   };
